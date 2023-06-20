@@ -1,0 +1,185 @@
+[[0619]]
+
+Q. 매개변수만으로 상탯값 관리하기(Vuex 대신)
+D:/project
+    
+    vue create [project3]
+    manually select features
+    [babel],[router]
+    2.x
+    package.json
+
+    cd project3
+    vue add vuetify
+
+    npm run serve
+
+
+src > app.vue
+    <template>
+        <v-app>
+            <v-app-bar app color='primary' dark>
+            </v-app-bar>
+
+            <v-main>
+            </v-main>
+
+            <v-footer color='secondary' fixed dark>
+            </v-footer>
+        </v-app>
+    </template>
+
+src > router > index.js
+
+    import Vue from 'vue'
+    import Router from 'vue-router'
+    import main_page from '@/components/main_page'
+    import sub_page from '@/components/sub_page'
+
+    Vue.use(Router)
+
+    export default new Router({
+        mode: 'history'
+        base: process.env.BASE_URL,
+        routes: [
+            {
+                path: '/',
+                name: 'home',
+                component: main_page
+            },
+            {
+                path: '/main',
+                name: 'main_page',
+                component: main_page
+            },
+            {
+                path: '/sub',
+                name: 'sub_page',
+                component: sub_page
+            },
+        ]
+    })
+
+    
+    <a href="http://naver.com">NAVER</a>
+    
+    <br>
+    
+    <button type='button' onclick="go_url()"> click </button>
+    <script>
+        function go_url(){
+            location.href="http://naver.com
+        }
+    </script>  
+
+
+    <form name="" action="" method="get/post">
+        get : 보여 
+            -> localhost/sub?sParam1=value&sParam2=value
+        post : 감춰   ex/ 로그인창
+
+
+
+
+-------------------------------------------------------------------------------
+
+뷰 프레임워크로 PWA 만들기
+D:/pwa-project
+
+1. PWA by VueJS 만들기
+    npm install -g serve  //serve dist에 필요해! serve 설치
+    npm install -g firebase-tools
+
+    cd []
+    npm install
+    npm run serve
+
+    '프로그램 빌드하고 테스트'
+        빌드:
+        - 실행에 필요한 모든 파일(html, css, js, img..)을 정적(static) 파일로 만드는 과정 (웹상에서 실제로 사용할 수 있는 파일형태로 만들어줘)
+        - 브라우저가 읽을 수 있는 자바스크립트 파일 /dist 폴더에 생성
+    
+    npm run build : 빌드 명령 실행
+    serve dist : dist폴더의 index.html 실행
+        콘솔에서 명령어 실행 안 되는 경우 명령어 .cmd 추가
+        serve dist 에러 시 serve.cmd dist
+
+
+
+
+
+2. 프로젝트 제작
+    목적
+        - 처음부터 끝까지 직접 만들어 보기
+        - 개발 전체 과정 익히기
+
+    실습
+        - 기본환경 설정
+            node.js, Vue-CLI
+        - 프로젝트 폴더생성 및 옵션 설정
+        - 테스트 및 컴포넌트 설치
+        - 매니페스트 작성
+        - index.html 수정
+        - App.vue 수정
+        - 테스트 및 실행
+
+    순ㅅㅓ
+        1/ vue create pwa-project
+        2/ [babel], [pwa]
+        3/ ...
+            /*
+            npm run serve : npm 명령어
+            serve : build된 파일 미리보기
+            */
+
+
+
+
+
+3. 워크박스로 오프라인 관리
+    (워크박스?)
+        - 구글에서 제공하는 워크박스는 웹앱의 '오프라인 기능'을 지원하는 오픈소스 기반의 자바스크립트 라이브러리
+        - Vue-CLI3 부터는 워크박스를 기본으로 포함
+        - 반복적인 것은 자동화하고 상황에 따라 캐시를 손쉽게 사용할 수 있도록 많은 기능을 제공하여 편리성 제공
+        - 예: 스타벅스, 핀터레스트, WIRED, Forbes
+
+    (워크박스의 3가지 캐시 전략 이해하기)
+        (캐시 전략)
+        1/ Cache First
+            (방법)
+            - 캐시먼저 사용 -> 캐시에 없으면 그 때 온라인 사용
+            (용도)
+            - 캐시가 유용한 폰트, 이미지처럼 바뀔 가능성이 작을 때
+            (대상)
+            - 폰트, 이미지
+
+        2/ Stale while revalidate
+            (방법)
+            - 캐시먼저 사용 -> 캐시 내용이 변경되면 온라인에 접속해 변경된 것으로 교체
+            (용도)
+            - 캐시가 유용하지만 사용자가 가끔씩 변경할 때
+            (대상)
+            - 아바타 이미지, CSS, JS
+
+        3/ Network First
+            (방법)
+            - 온라인에 먼저 접속해서 사용 -> 오프라인일 때 캐시 사용
+            (용도)
+            - '인터넷 기사'처럼 항상 최신 내용이 중요할 때
+            (대상)
+            - HTTP 요청 URL
+
+
+    F12
+        console: 워크박스 캐시내용 확인
+        application: (Cache Storage에서) 상세 내용 확인
+
+
+
+
+4. 파이어베이스 호스팅에 HTTPS로 PWA배포 (=AWS)
+
+5. PWA 성능 테스트하기
+
+
+

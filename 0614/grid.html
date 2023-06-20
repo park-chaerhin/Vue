@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vuetify.js에 필요한 스타일 파일 링크 연결 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Roboto:wght@100;300;400;500;700;900&family=Vina+Sans&display=swap|Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+
+    <!-- 그리드 레이아웃 -->
+    <title>GRID</title>
+    <style>
+        .border_style{
+            border: 1px solid tomato;
+            background: #9c0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+
+            <v-app-bar app color="primary" dark fixed>
+                <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                <v-toolbar-title>마스터 페이지</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+            </v-app-bar>
+
+            <v-main>
+                <v-container> 
+                    <!-- 한 행은 12개의 열이 기준 -->
+                    <v-row class="text-center">
+                        <v-col cols="12" class="border_style">xs12</v-col>
+                        <v-col cols="6" class="border_style">xs6</v-col>
+                        <v-col cols="3" class="border_style">xs3</v-col>
+
+                        <!-- 현재 열의개수가 9개인데 열 4개를 추가하면 12를 초과하므로 자동 줄바꿈 -->
+                        <v-col cols="4" class="border_style">xs4</v-col>
+
+                        <!-- 총 12개의 열을 추가. 8개 열을 채운 후 4개의 열은 자동으로 줄바꿈-->
+                        <v-col cols="1" v-for="item in 12" v-bind:key="item.id" class="border_style">xs1</v-col>
+                    </v-row>
+                    <br>
+                    <!-- 총 20개 생성. 열의 개수가 12개를 넘으면 자동으로 줄바꿈 -->
+                    <v-row class="text-center">
+                        <!--vue key: html에서 id-->
+                        <v-col cols="1" v-for="item in 20" v-bind:key="item.id" class="border_style">xs1</v-col>
+                    </v-row>
+                </v-container>
+                <br>
+                <v-container fluid> <!--fluid: 화면전체-->
+                    <v-row class="text-center">
+                        <v-col sm="4" class="border_style">sm4</v-col>
+                        <!-- offset으로 그리드 사이에 4개의 열 간격을 띄움 -->
+                        <v-col sm="4" offset-sm="4" class="border_style">sm4</v-col>
+
+                        <!--
+                        Q. 평소에 1줄, 좁아지면 2줄
+                        <v-col cols='12' sm="4" class="border_style">sm4</v-col>
+                        <v-col cols='12' sm="4" offset-sm="4" class="border_style">sm4</v-col>
+                        -->
+                    </v-row>
+                </v-container>
+            </v-main>
+
+            <v-footer color="secondary" dark fixed>
+                <div class="mx-auto">Copyright &copy;</div>
+            </v-footer>
+
+        </v-app>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            vuetify: new Vuetify(),
+        })
+    </script>
+</body>
+</html>

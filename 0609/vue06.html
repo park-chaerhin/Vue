@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for : 반복문을 이용한 과일 목록 출력</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>좋아하는 과일은?</h1>
+        <ol>
+            <!-- v-for 반복문으로 fruits 과일 배열 데이터를 가져옴 -->
+            <li v-for='item in fruits'>
+                <!-- fruits 안의 fruitsName 항목을 하나씩 가져와 html로 렌더링-->
+                {{item.fruitName}} : {{item.price}}
+            </li>        
+        </ol>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data: {
+                // 과일의 이름들을 가진 fruits 배열을 데이터로 정의함
+                fruits: [
+                    {fruitName:'사과', price:1000},
+                    {fruitName:'배', price:2000},
+                    {fruitName:'복숭아', price:3000}
+                ]
+            }
+        })
+    </script>
+
+<!--
+    <div id="app">
+        <h1>좋아하는 과일</h1>
+        <ol>
+            <li v-for="item of fruits">{{item}}</li>
+        </ol>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data: {
+                fruits: ['apple', 'cherry', 'orange']
+            }
+        })
+    </script>
+-->
+</body>
+</html>

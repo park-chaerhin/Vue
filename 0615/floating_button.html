@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vuetify.js에 필요한 스타일 파일 링크 연결 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Roboto:wght@100;300;400;500;700;900&family=Vina+Sans&display=swap|Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+
+    <!-- Q. 플로팅 버튼 UI 컴포넌트 넣기 -->
+    <title>플로팅 버튼</title>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-app-bar app color="blue" dark>
+                <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                <v-toolbar-title>List & Icon</v-toolbar-title>
+            </v-app-bar>
+
+            <v-main>
+                <v-container>
+                    <v-card>
+                        <v-list two-line v-for="item in aList" v-bind:key="item.id"> 
+
+                            <!-- 항목을 하나씩 가져와서 item 단위로 표시 -->
+                            <v-list-item @click="">
+                                
+                                <!-- 좌측에 대표 아이콘 먼저 표시 -->
+                                <v-list-item-avatar :class="item.icon_style">
+                                    <span class="material-symbols-outlined">{{ item.icon_name }}</span>
+                                </v-list-item-avatar>
+
+                                <!-- 제목 렌더링 -->
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                </v-list-item-content>
+
+                                <!-- 우측에 화살표 아이콘 추가 -->
+                                <v-list-item-action>
+                                    <v-btn icon>
+                                        <span class="material-symbols-outlined">keyboard_arrow_right</span>
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
+                        </v-list>
+                    </v-card>
+                </v-container>
+                </v-main>
+                
+                <v-container>
+                    <v-btn fab dark color="pink" fixed bottom right>
+                        <span class="material-symbols-outlined">add</span>
+                    </v-btn>
+                </v-container>
+
+        </v-app>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            vuetify: new Vuetify(),
+            data(){
+                return{
+                    // 반복되는 항목들은 JSON 배열 데이터로 만들어 반환
+                    aList: [
+                        {
+                            id:'item1',
+                            icon_name:'account_balance',
+                            icon_style:'red white--text',
+                            title:'Create List',
+                        },
+                        {
+                            id:'item2',
+                            icon_name:'photo',
+                            icon_style:'green white--text',
+                            title:'Use Material Icon',
+                        },
+                        {
+                            id:'item3',
+                            divider: false, 
+                            icon_name:'movie',
+                            icon_style:'yellow white--text',
+                            title:'List & Icons',
+                        },
+                    ]
+                }
+            },
+        })
+    </script>
+</body>
+</html>

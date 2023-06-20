@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 실습 : 메인 페이지와 서브 페이지 간 이동하는 싱글 페이지 앱 -->
+    <title>ROUTER</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- 라우터를 사용하기 위해 CDN 연결 -->
+    <script src="https://unpkg.com/vue-router@3/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Vue Router 사용하기!</h1>
+
+        <p>라우터 사용:
+            <!-- to 속성에 이동할 링크를 지정 -->
+            <router-link to="/main">메인 페이지 이동</router-link>
+            <router-link to="/sub">서브 페이지 이동</router-link>
+        </p>
+        <hr>
+
+        <!-- 현재 라우터 위치의 컴포넌트 렌더링 -->
+        <router-view></router-view>
+    </div>
+
+    <script>
+        // 컴포넌트 생성
+        const tmMain = {
+            /* 
+            --SPA
+                : ajax처럼 페이지 깜빡 거리지 않아(처음에 다 불러오고 시작~)
+                : CSR 방식 (client side rendering)
+                : 단점) 검색엔진최적화(SEO)X : 검색중요한 사이트는 SPA로 만들면X
+            --MPA
+                : multiple ~ 
+                : 누를때마다 불러와 -> 검색엔진최적화!
+                : SSR (server side rendering)
+            */
+            // template에 메인페이지의 전체코드 입력하면 너무 길어 실제로는 파일 따로 만들어서 사용
+            // 'import 이 컴포넌트에서 사용할 이름 from 불러올 컴포넌트' 이렇게 사용!
+            template: `<h2>메인 페이지입니다.</h2>` 
+        };
+        const tmSub = {
+            template: `<h2>서브 페이지입니다.</h2>`
+        };
+
+        // 주소 & 컴포넌트 정의
+        const rtRoutes = [
+            {
+                path: '/main',
+                component: tmMain  // =이 컴포넌트에서 사용할 이름
+            },
+            {
+                path: '/sub',
+                component: tmSub
+            }
+        ];
+
+        // 라우터 객체 생성
+        // 'router' 객체변수는 라우터 인스턴스이면서 Vue 생성 시 옵션으로 사용되므로 변수 이름은 반드시 'router'사용
+        const router = new VueRouter({
+            routes: rtRoutes  //직접 써도 되지만 너무 길어지니까 따로 정의
+        });
+
+        // 뷰 루트 인스턴스를 만들고 router 옵션 추가
+        var app = new Vue({
+            el:'#app',
+            router
+        })
+    </script>
+</body>
+</html>

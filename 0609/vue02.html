@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 실습 : Vue.js로 'Hello, Wolrd!' 출력하기 -->
+    <title>Hello, World!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> <!--@2:2버전전체 / @next:가장 최신버전 -->
+</head>
+<body>
+    <div id="app"> <!-- npm으로 실행하면 template로 바꿔 작성 -->
+        <!-- sTitle 값을 받아서 HTML의 엘리먼트 값으로 변환하여 표시함 -->
+        <p>{{ sTitle }}</p>
+
+        <!-- Q1. sContent라는 항목 추가하고 임의의 텍스트 출력 -->
+        <p>Q1. sContent라는 항목 추가하고 임의의 텍스트 출력 :<br>
+            {{ sContent }}</p>
+
+        <!--Q2. sTitle2와 sContent2라는 항목을 app요소 안에서 출력-->
+        <p>Q2. sTitle2와 sContent2라는 항목을 app요소 안에서 출력 :<br>
+            {{sTitle2}} {{sContent2}}</p>
+    </div>
+    <div id="Quiz">
+        <p>
+            상위박스, 객체 따로 생성해서 출력~<br>
+            {{sTitle2}}
+            {{sContent2}}
+        </p>
+    </div>
+
+    <script>
+        // Vue 객체를 생성하여 초기화하고 시작함 = jquery의 $와 같음
+        new Vue({
+            el: '#app',  //id 속성값이 'app'인 div와 앱을 연결시켜 구동 = document.getElementById('app'), document.querySelector('#app')
+            data: {
+                // {{sTitle}}로 데이터 값을 전달
+                sTitle: "Hello, World!",
+
+                /*Q1. sContent라는 항목을 추가하고 임의의 텍스트 출력*/
+                sContent: 'text',
+
+                /*Q2. sTitle2와 sContent2라는 항목을 app요소 안에서 출력*/
+                sTitle2: "title2",
+                sContent2: "content2",
+            },
+            // 속성 : el, data(단순data), method(계산식포함 복잡한data)
+        });
+        new Vue({
+            el:'#Quiz',
+            data: {
+                sTitle2 : 'text2',
+                sContent2 : 'content2'
+            }
+        })
+    </script>
+</body>
+</html>

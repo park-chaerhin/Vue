@@ -1,0 +1,83 @@
+[[0616]]
+프로젝트 준비 : 프로젝트 직접 만들기
+
+
+1. 하단 내비게이션
+
+
+
+
+
+2. 탐색 서랍
+    (탐색 서랍(navigation drawer) UI)
+        - 앱바의 메뉴 아이콘을 누르면 탐색 서랍 표시
+        - 링크를 클릭하면 해당 사이트로 이동
+
+
+
+
+
+    3. 라우터로 멀티페이지 관리하는 SPA 만들기
+        (본격적인 실전 프로젝트 시작)
+            - 뷰티파이에서 제공하는 Vue-CLI 템플릿
+            - 메인 페이지와 서브 페이지로 이동하는 라우터 기능 구현
+                <!--
+                    SPA : 처음에 다 가져와 -> 처음엔 느려/두 번째 페이지부터 mpa보다 빨라 (load:1회)
+                    MPA : 처음에 한 페이지만 가져와 -> 처음엔 빨라/두 번째 페이지부터는 느려 (load:페이지마다)
+                -->
+                <!--node_modules = webpack / 개발할 때만 사용, 프로젝트 이동할 때 제외시켜-->
+
+                // 설치 후~
+                cd router_project
+                npm run serve
+                vue add vuetify -> still proceed? Yes
+                Vuetify2-Vue CLI (recommendedd)
+
+
+                <!--
+                    node_modules : 의존성~
+                    package.json : 모든 정보
+                    src : 실제 개발할 폴더 src/App.vue 가지고 개발
+                        vue 파일 하나하나 = 컴포넌트
+                            - 기본구성 : template, script(내부스크립트), style
+                            - vue@2 : template 최상위루트 1개
+                    public : 웹 브라우저에서 볼 수 있게 해주는 '파일'들이 들어있는 폴더(index.html)
+                        -> 언어설정/ 타이틀 변경 가능
+                    main.js : .$mount('#app') = el:('#app')
+                    build명령(npm run build) : 배포파일(ftp)
+                        -> dist폴더 생성, 이 안에 있는 파일들을 ftp업로드~
+                -->
+
+<실습 환경 준비하고 프로젝트 만들기>
+    1/ node.js/ Vue-CLI 설치
+
+    2/ VScode 에서 실습할 폴더 선택
+   
+    3/ 터미널 열고 
+       vue create [프로젝트명]
+       cd [프로젝트명]
+       vue add vuetify
+   
+    4/ 생성된 파일 확인 : npm run serve (ctrl+c 눌러서 서버 끈 후에 다시 npm run serve)
+
+
+
+
+
+    4. Vuex로 상탯값 관리하는 SPA 만들기
+        (Vuex로 상탯값 관리)
+            - 뷰티파이로 디자인한 메인 페이지에서 입력한 내용을 Vuex에 저장
+            - 그 값을 서브 페이지에서 전달받아 처리
+
+
+        vue create [new_project]
+        [router] [vuex]
+        2.x
+        history ?Yes
+        package.json
+        preset ?No
+
+        cd new_project
+        vue add vuetify ?yes
+        2 CLI recommended
+

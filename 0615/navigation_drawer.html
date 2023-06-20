@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vuetify.js에 필요한 스타일 파일 링크 연결 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Roboto:wght@100;300;400;500;700;900&family=Vina+Sans&display=swap|Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+
+    <!-- 폰트어썸 아이콘 -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    <!-- 실습: 앱바와 탐색 서랍 디자인 실습하기  -->
+    <title>탐색 서랍</title>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <!-- 상단영역에 툴바 배치하고 좌측에 메뉴 아이콘 추가 -->
+            <v-app-bar app color="blue" dark>
+                <!-- 메뉴 아이콘을 누르면 클릭기능 비활성화 -->
+                <v-app-bar-nav-icon @click.stop="bDrawer=true"></v-app-bar-nav-icon> 
+                    <!--@click='bDrawer=true' 여는것만가능-->
+                <v-toolbar-title>
+                    HEADER
+                </v-toolbar-title>
+            </v-app-bar>
+
+            <!-- bDrawer가 true면 탐색 서랍 사용하도록 바인딩 -->
+            <v-navigation-drawer absolute temporary v-model="bDrawer">
+                <v-btn color='blue' dark @click="bDrawer=false" absolute right top>
+                    <span class="material-symbols-outlined">close</span>
+                </v-btn>
+            </v-navigation-drawer>
+                
+            <v-container>
+                <v-btn fab dark color="pink" fixed bottom right>
+                    <span class="material-symbols-outlined">add</span>
+                </v-btn>
+            </v-container>
+        </v-app>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            vuetify: new Vuetify(),
+            data:{
+                // 버튼을 누르면 비활성화되도록 하는 토글 변수
+                bDrawer: false,
+
+                // 배열로 메뉴의 제목, 아이콘, 링크 준비
+                menu_items: [
+                    
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

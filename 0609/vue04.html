@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model : 실시간 데이터 동기화</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+<!--Vue로 만들기-->
+    <div id="app">
+        <p>Vue로 만들기 : </p>
+        <p>{{ sMsg }}</p>
+        <!-- v-model 은 데이터에 접근해서 가져오는 것과 동시에 입력이 동기화 됨 -->
+        <!-- 엘리먼트의 어트리뷰트는 'v-model:' 다음에 명시 -->
+        <input type="text" v-model:value="sMsg">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                sMsg: 'helllo',
+            }
+        })
+    </script>
+
+<!--script로 만들기-->
+    <div id="app2">
+        <p>js로 만들기 : </p>
+        <p id="rst"></p>
+        <input type="text" id="txt_box" onkeyup="printTxt()">
+    </div>
+    <script>
+        function printTxt(){
+            var rst = document.getElementById('rst');
+            var txt_box = document.getElementById('txt_box');
+            var rtn_txt = txt_box.value;
+
+            rst.textContent = rtn_txt;
+        }
+    </script>
+</body>
+</html>

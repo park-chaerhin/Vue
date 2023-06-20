@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 실습 : 카운트다운 프로그램 -->
+    <title>methods</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="main">
+        <p>클릭 숫자 : {{ nClicks }} </p>
+        <p>카운트 다운 : {{ fnCounter }}</p>
+        <!--버튼을 누르면 fnIncrement 메서드 실행 -->
+        <button v-on:click="fnIncrement"> CLICK </button>
+    </div>
+    
+    <script>
+        new Vue({
+            el:'#main',
+            data:{
+                nClicks: 0,
+            },
+
+            // 메서드는 이벤트핸들러
+            methods:{
+                // fnIncrement: function(){} 이렇게 작성 가능
+                // nClicks 값을 하나 증가시킴
+                fnIncrement(){
+                    /* Q. 카운트다운 프로그래밍을 작성하고 카운트 다운의 값이 0보다 작으면 동작되지 않도록 작성 */
+                    if(this.nClicks < 10){
+                        this.nClicks++;
+                    }
+
+                }
+            },
+            
+            // computed는 머스태시 안에 로직이 복잡할 때 사용
+            computed:{
+                fnCounter(){
+                    // nClicks 값이 10을 기준으로 거꾸로 카운트 되도록 하나 감소시킴
+                    return 10-this.nClicks;
+                }
+            }
+
+        })
+    </script>
+
+</body>
+</html>

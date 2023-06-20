@@ -1,0 +1,179 @@
+Vue.js
+
+1. Vue.js
+    (기본정보)
+        - 'Evan You'에 의해 출시
+        - 인터랙티브 웹 인터페이스 개발 위한 '프로그레시브 자바스크립트 프레임워크'
+        - 웹에서 UI 뷰, 비즈니스 로직, 데이터의 관리를 돕는 최고 성능의 컴팩트한 자바스크립트 라이브러리
+
+            -FE-
+            React(facebook), Vue, Angular, JQuery, Svelt...
+
+    (주목 받는 이유)
+        1/ 디자이너와 개발자를 위해 쉽게 설계
+        2/ MVC(model view controller) 모델 지원
+        3/ HTML5와 자바스크립트만 알면 쉽게 시작할 수 있다.
+        4/ 설치 쉽고 용량 작아서 속도 빠름
+
+    (특징)
+        - 다른 프레임워크들의 단점을 보완해 성능이 우수
+        - 뛰어난 '사용성'을 중심으로 지속적으로 발전
+        - 자유롭게 참여하는 커뮤니티 문화
+        - bestofjs.org : 'UI Framework'
+            다양한 관점으로 기술 추이 분석하여 순위
+            최근 통계 뷰가 1등
+
+
+
+
+
+2. Hello, World!
+    (기본 사용법/특징)
+        - CDN으로 설정하는 방법  //https://www.jsdelivr.com/ 참조
+        - 머스태시라고 불리는 {{}} **
+            "text" +var+ "text"
+            `text ${var} text`
+        - data 속성의 바인딩 관계를 이해
+
+
+    1/
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    2/ 
+        <div id='app'>
+            <p>{{ sTitle }}</p>
+        </div>
+
+    3/ vue 객체 생성, 초기화
+        new Vue({})
+
+    4/ data 속성
+        - data 속성은 뷰 안에서 사용할 데이터를 변수명으로 선언하여 관리
+        - 객체나 함수를 선언하여 데이터를 읽고 저장하는 일 수행
+        data: {sTitle:'hello, world!'}
+
+
+
+
+
+3. 단방향 바인딩과 v-bind 디렉티브
+
+    (데이터 바인딩)
+        - HTML의 어트리뷰터(attribute) 값을 수정할 때 v-bind라는 디렉티브를 이용해서 데이터 값을 브라우저 화면에 자동으로 반영하는 것
+            * 디렉티브 : jquery method같은~ $('sel').delay()의 delay
+            * <element attribute = "abc"> -> <elem v-bind:attribute = "abc"> 
+                :: 1/ abc = value, 2/ abc = variable : vue가 속성 제어중
+        - 변수값을 HTML 어트리뷰트에 연결함으로써 변수가 새로운 값으로 바뀔 때마다 HTML 엘리먼트에 실시간으로 렌더링
+
+            --js
+            <body>
+                <img src='2.jpg' id='aa'>
+                <a href='main.html' id='bb'>
+            </body>
+            <script>
+                var aa = document.getElementById('aa');
+                var bb = document.getElementById('bb');
+                aa.setAttribute('src', '2.jpg');
+                bb.setAttribute('href', 'main.html');
+            </script>
+
+            --Vue
+            <body>
+                <img v-bind:src='val1' id='aa'>
+                <a v-bind:href='val2' id='bb'>
+            </body>
+            <script>
+                new Vue({
+                    el:,
+                    data:{
+                        val1: '2.jpg',
+                        val2: 'main.html',
+                    }
+                })
+            </script>
+
+        - '머스태시'랑 'v-bind' 차이 
+            {{}} : obj.textContent = 'value'   // HTML의 엘리먼트 값 생성 / 값만 전달 / document.write
+            v-bind : obj.setAttribute('src','new Value')   // HTML 요소의 어트리뷰트 값 생성 / 속성 제어
+
+    (v-bind 디렉티브)
+        - 콜론(:)을 중심으로 왼쪽에는 v-bind를 기입, 오른쪽에는 HTML 엘리먼트의 어트리뷰트를 선언해서 바인딩으로 만들어진 값을 대입
+        - 콜론(:)만 사용하면 'v-bind'라는 명칭 생략 가능
+
+            <input v-bind:value='sDate'>  //HTML 어트리뷰트 값 생성
+
+
+
+
+
+4. 양방향 바인딩과 v-model 디렉티브
+    (양방향 데이터 바인딩)
+        - 입력과 동시에 데이터가 동기화되어 표시되는 기능을 수행
+    
+    (v-model 디렉티브)
+        - HTML 어트리뷰트에 양방향 데이터 바인딩을 수행
+        - 콜론(:)을 중심으로 왼쪽에는 v-model을 기입하고 오른쪽에는 HTML 엘리먼트의 어트리뷰트 이름을 작성
+
+            -- v-bind : sDate값을 HTML 어트리뷰트에 보내기만 함
+            <input v-bind:value="sDate">
+
+            -- v-model : sMsg 값과 입력값이 서로 연동됨
+            <input v-model:value="sMsg">
+
+
+
+
+
+5. 조건 판단과 v-if, v-else 디렉티브
+    (v-if 디렉티브)
+        - 조건이 충족될 때만 '렌더링'을 수행하도록 돕는 어트리뷰트
+            <!-- v-if, else로 직접 bFlag 데이터에 접근하여 조건 판단-->
+            <p v-if='bFlag == true'>앞면!</p>
+            <p v-else>뒷면!</p>
+
+
+
+
+
+6. 반복문과 v-for 디렉티브
+    (v-for)
+        - HTML 안에서 반복문으로 배열값을 읽어서 목록의 항목과 인덱스 변수에 저장하도록 돕는 어트리뷰트
+            <!-- v-for 반복문으로 fruits 과일 배열 데이터를 가져옴 -->
+            <li v-for='item in fruits'>
+                <!-- fruits 안의 fruitsName 항목을 하나씩 가져와 html로 렌더링-->
+                {{item.fruitName}}
+            </li>
+
+                for of : 값만 / for in : key + 값
+
+
+
+
+
+7. 이벤트 핸들러 실행과 v-on 디렉티브
+    (v-on 디렉티브)
+        - 뷰에서 발생하는 이벤트를 지켜보면서 DOM 엘리먼트를 제어할 수 있도록 도와주는 어트리뷰트
+        - 뷰 안에서 사용자가 키보드나 마우스를 제어하는 형식의 이벤트가 발생했을 때 이를 실행하는 함수와 바인딩 할 때 사용
+            <!-- 버튼을 누르면 fnChangeTitle 메소드로 이벤트 핸들러 수행 -->
+            <button v-on:click='fnChangeTitle'> CLICK </button> //fnChangeTitle() 아님! ()없어!
+
+                function testFunc(){}
+                setTimeout('testFunc()',4000)
+                setTimeout(testFunc, 4000)
+                setTimeout(function(){}, 4000) 1/ 함수 길면 따로 정의하고 넣기 2/ 짧으면 ()=>{} 바로 쓰기
+
+                fnchangeTitle:function(){}  ->  function fnChangeTitle(){}
+
+    (이벤트 핸들러)
+        - 이벤트가 발생했을 때 실행되는 함수
+
+    (메소드 method)
+        - 이벤트 핸들러 함수를 제작해야 할 때 미리 정의해 두고 사용
+        - 뷰 객체의 행위를 정의하는 용도, 즉 로직을 실행하는 함수가 필요할 때 이곳에 정의해 두고 사용
+            methods: {
+                // 버튼을 눌렀을 때 sTitle의 제목 변경
+                fnChangeTitle(){
+                    //this : Vue 객체의 인스턴스  (sTitle은 지역변수이기 때문에 +this.)
+                    this.sTitle = 'hello!'
+                }
+            }

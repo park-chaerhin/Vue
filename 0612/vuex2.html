@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vuex2</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- Vuex 사용하기 위해 CDN 연결 -->
+    <script src="https://unpkg.com/vuex@3"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>{{ sTitle }}</h2>
+        <com-counter msg="카운터1"></com-counter>
+        <com-counter msg="카운터2"></com-counter>
+    </div>
+
+    <script>
+        const store = new Vuex.Store({
+            // Vuex 사용하려면 속성 4개 필요 (최소한 state , getters 필요)
+            
+            // 상태값 정의
+            state: {
+                count:0  //전역변수?!
+            },
+
+            // 데이터 변경
+            mutations: {
+                fnIncData: function(state){
+                    return state.count++;
+                },
+                fnDecData: function(state){
+                    return state.count--;
+                }
+                /*
+                = fnDecData(state){return state.count--}
+                = fnDecData: state => state.count--
+                */
+            },
+
+            // 상태값 반환
+            getters: {
+                fnGetData(state){
+                    return state.count
+                }
+                /*
+                    = fnGetData: function(state){return ~}
+                    = fnGetData: state => state.count
+                */
+            },
+
+            // 실제 일어날 동작, 외부데이터 통신
+            actions: {
+                async fnDecData({commit}, state){
+                    const result = await api.fnDecrement();
+                    if(result==true)commit('fnDecData')
+                }
+            }
+        });  
+
+        const api = {
+            fnDecrement(){
+                return new Promise((resolve)=>{ //promise의 첫번째 인자로 함수반환
+                    setTimeout(()=>{
+                        resolve(true)
+                    }, 1000) //1초마다 받아온 값 사용해~
+                })
+            }
+        }
+
+        Vue.component('com-counter',{
+            props:['msg'],
+            // vue2는 template 사용 시 최상위 루트는 1개여야해!
+            // button type 작성X = type='submit' -> 페이지 넘어가
+            // v-on:click='' == @click=''
+            template:`
+                <div>
+                    <h2>{{ msg }}</h2>
+                    <p>counter : {{fngetCount}}</p>
+                    <button type='button' @click='fnIncCount'>1 증가</button>
+                    <button type='button' @click='fnDecCount'>1 감소</button>
+                </div>
+            `,
+            computed:{
+                fngetCount(){
+                    return store.getters.fnGetData
+                }
+            },
+            methods:{
+                fnIncCount(){
+                    store.commit('fnIncData')
+                },
+                fnDecCount(){
+                    store.dispatch('fnDecData')
+                }
+            }
+        })
+
+        var app = new Vue ({
+            el:'#app',
+            data: {
+                sTitle: 'Vue 사용하기'
+            },
+            store
+        })
+    </script>
+</body>
+</html>

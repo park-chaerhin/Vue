@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vuetify.js에 필요한 스타일 파일 링크 연결 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&family=Roboto:wght@100;300;400;500;700;900&family=Vina+Sans&display=swap|Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+
+    <!-- 실습: 하단 내비게이션 디자인 -->
+    <title>하단 내비게이션</title>
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <!-- 내용 영역에 선택된 메뉴명 표시. flexbox를 이용해서 가운데 정렬 -->
+            <v-main>
+                <v-card height="100%" class="d-flex display-2 align-center justify-center">
+                    선택 : {{ sSelect }}
+                </v-card>
+            </v-main>
+                
+            <!-- 하단 영역에 바닥 네비게이션 메뉴를 absolute로 고정 -->
+            <v-footer>
+                <!-- 선택된 메뉴는 sSelect 데이터를 연동시켜 바인딩 -->
+                <v-bottom-navigation absolute v-model="sSelect" dart> <!--아래고정/ absolute 대신 fixed사용 가능-->
+                    <!-- 아이콘 버튼 3개 표시 -->
+                    <v-btn class="red--text" value="자전거">
+                        자전거
+                        <span class="material-symbols-outlined">directions_bike</span>
+                    </v-btn>
+                    <v-btn class="green--text" value="지하철">
+                        지하철
+                        <span class="material-symbols-outlined">subway</span>
+                    </v-btn>
+                    <v-btn class="blue--text" value="버스">
+                        버스
+                        <span class="material-symbols-outlined">directions_bus</span>
+                    </v-btn>
+                </v-bottom-navigation>
+            </v-footer>
+
+        </v-app>
+    </div>
+
+    <script>
+        new Vue({
+            el:'#app',
+            vuetify: new Vuetify(),
+            data:{
+                sSelect: '자전거'
+            }
+        })
+    </script>
+</body>
+</html>
