@@ -1,0 +1,72 @@
+[[0621]]
+
+1. To Do 앱
+    (제작목적)
+        - 할 일을 새로 만들고(create), 할 일을 읽어 오고(read), 수정하고(update), 삭제(delete)하는 기능 구현
+
+
+
+
+
+2. 설치
+        vue add vuetify  // 뷰티파이 설치
+        preset : default  // vite = jquery같이 좀 더 쉽게 사용할 수 있게 도와주는..
+        npm install firebase vuefire@next  // 최신버전 뷰파이어 설치, 'firebase랑 vuefire 설치해줘'
+
+
+
+
+
+3. 뷰파이어
+    (뷰파이어?)
+        - '뷰와 파이어베이스를 연결'하여 손쉬운 코드만으로 '실시간 데이터 기반의 동적인 웹 UI'를 빠르게 렌더링할 수 있도록 해주는 최적의 '파이어베이스 데이터바인딩 라이브러리'
+        - 파이어베이스를 이용해서 최신 웹 애플리케이션의 데이터 관리의 'CRUD(create, read, update, delete)'를 쉽고 빠르게 작업하도록 도와주는 솔루션
+
+
+
+
+
+4. 워크박스로 오프라인 관리하기
+    (뷰를 통해서 생성된 PWA 템플릿)
+        - 워크박스를 사용해 '캐시를 체계적으로 관리'
+        - 자동으로 index.html, css, txt 캐시
+
+    (직접 원하는 파일만 캐시해야 할 상황 발생 시)
+        - 워크박스 플러그인 모드 활용
+
+    4-1/ 워크박스 플러그인 모드
+        (워크박스가 제공하는 방식)
+            - 서비스 워커 파일은 자동 생성 시, 작성한 로직을 서비스 워커에 추가할지 아니면 직접 코드를 함께 포함시킬지를 설정으로 결정
+                ex/ 
+                GenerateSW : 자동으로 생성되는 서비스 워커에 워크박스 옵션 지정
+                InjectManifest : 서비스 워커에 자신의 코드를 직접 넣어 최종 서비스 워커 파일 생성
+
+            - /src에서 개발  -오프라인 기능 빌드(workbox)->  webpack  -빌드->  /dist 배포파일 행성
+
+        (캐시 종류)
+            - 프리캐시(pre-cache) : 실행 전에 미리 지정
+            - 런타임 캐시(runtime-cache) : 프로그램이 실행 중에 원하는 부분만 지정
+
+        (캐시 플러그인 모드)
+            - GenerateSW : 프리 캐시, 런타임 캐시를 간단한 설정값으로 처리
+            - InjectManifest : 직접 캐시 정책과 프로그램 로직 추가
+
+
+
+
+5. 파이어베이스 실시간 DB 준비하기
+    (CRUD?)
+        - Create, Read, Update, Delete
+        - 데이터베이스의 기초 기능
+    
+    (CRUD 간편구현)
+        - 파이어베이스에서 쉽게 구현할 수 있도록 뷰파이어를 적용
+
+        new project! : to-do (에널리틱스=방문자체크?!)
+        build > realtime database, firestore database !
+            realtime database -> 데이터베이스 만들기
+                "rules":{".read":true, ".write":true}
+            프로젝트개요 설정 -> 프로젝트 설정 -> apikey, databaseurl 확인 가능
+                databaseURL: "https://to-do-be1b2-default-rtdb.firebaseio.com"
+        
+        파이어베이스 데이터소스 준비 (src/datasources/firebase.js)
