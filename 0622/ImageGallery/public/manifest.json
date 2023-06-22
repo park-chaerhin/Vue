@@ -1,0 +1,11 @@
+{
+    "name": "이미지 갤러리",
+    "short_name": "Image Gallery",
+    "icons": [
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "orientation":"portrait",
+    "background_color": "#fff",
+    "theme_color": "#fff"
+}
