@@ -1,0 +1,10 @@
+{
+    "name": "카메라 갤러리",
+    "short_name": "Camera Gallery",
+    "icons": [
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#fff"
+}
