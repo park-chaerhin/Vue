@@ -1,0 +1,10 @@
+{
+    "name": "이메일-구글 인증 로그인",
+    "short_name": "이메일-구글 인증 로그인",
+    "icons": [
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#fff"
+}
