@@ -1,0 +1,498 @@
+[[0627]]
+
+Vue3 신규 기능
+
+1. 컴포지션 API
+    (기존 Vue 특징)
+        - Options API 기반으로 하나의 객체를 하나의 모듈로 생성(컴포넌트)  
+            /// 컴포넌트 작성 시 : Camel Case사용
+                ex/ userName, userAge, phoneNumber
+        - 각 객체를 변수, 메소드 등 특정한 옵션 기능으로 구성
+        - 주로 중, 소규모의 웹 앱 제작에 활용
+        - 하나의 SFC(single file component)에서 많은 기능과 변수들이 산포되어 가독성 저하
+
+
+
+
+
+*** 2. 컴포넌트 API ***
+        - 컴포넌트 작성 시 '함수 기반의 작성방법' 제시
+            ex/ component: () => import('../components/start_page.vue')
+        - 기능별 함수 분리
+        - 가독성 향상
+        - 컴포넌트 재활용성 향상
+        - 기존 vue 버전에 사용되던 Mixins 대체
+
+
+
+
+
+2. Suspense
+    (Suspense?)
+        - 컴포넌트가 data를 받아오기 전까지 기본(Fallback) 콘텐트 표시
+            ex/ 데이터 로딩 시 스켈레톤 UI 출력 후 데이터 로딩 완료 시 실제 화면 출력
+        - 기존 버전의 v-if, v-show 디렉티브를 간단하게 해결
+            /// v-if + v-show 이 조합으로 => 스켈레톤UI : 와이어프레임처럼 뼈대만 있는 이미지..
+
+
+
+
+
+3. Teleport
+    (Teleport?)
+        - Vue는 UI와 관련 동작을 은닉화하여 컴포넌트로 만들어 사용
+        - 컴포넌트는 다른 컴포넌트에 중첩 가능
+        - DOM 노드 트리 구조 상 CSS 작성 시 잘못된 UI 발생 가능
+        - portal-vue 서드파티 플러그인을 이용하여 특정 DOM 엘리먼트 렌더링
+        - teleport로 portal-vue 서드파티 플러그인과 동일한 기능 제공
+        - 어느 컴포넌트이든 '원하는 위치에 렌더링'
+            /// 컴포넌트에서 최상위 객체는 1개여야 하는데(2.x) ...  => 6.Fragments 참고!!!!!!
+
+
+
+
+
+*** 4. 다중 v-model 디렉티브 ***
+    (v-model)
+        - 양방향 결합 모델
+        - 기존 vue에서는 하나의 사용자 컴포넌트는 하나의 v-model만 사용 가능
+        - 여러 개의 v-model 디렉티브가 필요한 경우 v-bind, v-on 디렉티브를 함께 사용하거나 변수를 객체나 배열로 만들어 사용
+                --기존vue
+                <MyComponent v-bind:param1 v-on:update="updatePara1" v-bind:param2 v-on:update="updatePara2" />
+
+        - vue3 에서는 여러 개의 v-model 디렉티브를 하나의 DOM 엘리먼트에 할당 가능
+                --vue3
+                <MyComponent v-model="param1" v-model="param2" />
+
+
+
+
+
+5. 프록시(Proxies)
+    (기존 Vue의 반응성)
+        - Vue는 내부적으로 객체의 속성(key)을 setter와 getter로 변환하여 반응성 구현
+                /// 배열타입: ["item1",...], 
+                    객체타입: {name:'', age:'',...}
+        - 미리 정의되지 않은 속성의 추가는 getter와 setter 호출이 아닌 단순 아이템 추가
+        - 기존 vue의 Watch 옵션은 자바스크립트 객체의 속성 또는 배열의 아이템이 추가되는 경우 객체 변경에 반응하지 않음
+                ex/ 
+                    obj = {item:0}
+                    
+                    //객체에 속성 추가
+                    obj.item = 1      --추가된 아이템 인식 안 함
+
+    (vue3 : 반응성 향상)
+        - 프록시 
+            = ES6에서 추가
+            = 데이터와 프레임워크 사이에서 데이터 전달 및 변환, 관리를 담당
+        - Vue3 는 컴포지션 API를 통해 데이터를 프록시로 변환하여 사용
+        - 반응성이 향상 되지만 하위 버전 브라우저에서 지원되지 않음
+        - 프록시 사용 시 대상 객체는 프록시 객체 내부로 들어가고 프록시의 getter/setter로 관리 되면서 '모든 데이터의 변화에 대해 반응성 구현'
+        - 'ref 또는 reactive 함수 사용
+                /// ref : 배열데이터 , reactive : 객체데이터
+                ex/
+                    const obj = reactive({})
+                    obj.item1 = 2
+
+
+
+
+
+*** 6. Fragments ***
+    (기존 Vue)
+        - 기본적으로 '하나의 컴포넌트에 하나의 루트 노드' 사용
+        - 컴포넌트에 전달되는 Non-Props 속성을 컴포넌트에 정의된 루트 노드에 전달되도록 설계
+        - 여러 개의 루트 노드를 컴포넌트에 할당 가능하지만 속성을 전달해야 할 노드가 명확하지 않아 경고 발생
+            <template>
+                <div>
+                    <Header />
+                    <Main />
+                    <Footer />
+                </div>
+            </template>
+
+    (vue3 : fragments)
+        - '하나의 컴포넌트가 여러 개의 루트 노드'를 가지는 것
+        - Non-Props 속성의 전달이 필요한 경우 어느 노드가 전달 받을 지 명확하게 작성
+            <template>
+                <Header />
+                <Main />
+                <Footer />
+            </template>
+
+
+
+
+
+7. Emits Option
+    ($emit()?)
+        - 하나의 컴포넌트가 '부모 컴포넌트에 이벤트를 전달'하기 위해 사용
+            /// 
+                부모-> 자식 : 전달에 제약X
+                자식-> 부모 : 전달X
+
+    (기존 vue 버전)
+        - 함수 사용에 제약 없음
+
+    (vue3)
+        - 컴포넌트 옵션 emits를 이용해 전송할 이벤트 정의
+        - 해당 컴포넌트에서 발생하는 이벤트명 기술
+        - 해당 이벤트의 데이터에 대해 사전 검증하는 기능 제공
+
+        - 미리 정의된 이벤트명을 emits 옵션에 선언하지 않을 경우, 같은 이름의 네이티브 이벤트가 존재한다면 네이티브 이벤트를 호출
+            /// 
+                네이티브 이벤트 = 원래 브라우저들이 알고있던 event : click, mouseover ...
+                emit 옵션 = 내가 만들어서 사용하는 event
+            
+            <template>
+                <button v-on:click="$emit('click', $event)"> OK </button>
+            </template>
+            export default {emits: []}
+        
+        - 기존 버전에서 native 이벤트 사용 시 "@click.native" 처럼 사용
+        - vue3 에서는 native 수식어를 사용하지 않음
+        - emit 옵션에 명시되지 않은 이벤트는 모두 native로 처리
+
+
+
+
+
+8. createRenderer
+    (createRederer?)
+        - 사용자가 렌더링의 동작을 정의할 수 있게 해주는 함수
+            /// Renderer: CRUD에 관련된 함수...
+        - vue3가 제공하는 runtime-dom, runtime-core 패키지에서 제공
+        - Host 환경의 node와 element를 gerneric 인자로 받아 해당 노드와 엘리먼트의 렌더링 동작을 변경
+            /// node : html 구성하는 태그 한 개 한 개... 
+        - 하나의 객체를 인자로 받고 '해당 객체 내에 개발자가 재정의하고자 하는 함수 선언'
+                const {createApp} = createRenderer({
+                    ...
+                    insert : (child, parent, anchor) => {
+                        //엘리먼트 추가 시 재정의하고 싶은 코드 입력
+                    }
+                    ...
+                })
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+Vue3 환경설치
+
+1.  환경 설치
+    (Vue3 환경설치)
+        - 특별한 IDE(개발환경) 필요하지 않음
+        - 개발자가 사용하는 환경 사용 가능
+        - 본 과정에서는 VS code 사용
+
+    (설치)
+        - https://code.visualstudio.com/
+
+    (vscode extensions)
+        - vue vs code extension pack 검색~
+
+    (node.js 설치) 
+        - npm(node package manager) 명령어 실행 위해서 설치!
+        - 대체수단 : yarn
+
+    (vue devtools 설치)
+        - 크롬 브라우저..
+
+    (standalone electron vue-devtools)
+        - npm install -g @vue/devtools@6.0.0-beta.2
+            or npm install -g @vue/devtools@beta
+
+         설치 후 터미널 : [vue-devtools] 입력
+
+    (bootstrap)
+        - 웹 페이지, 웹 앱 등의 UI 제작을 돕는 도구
+        npm install -g bootstrap
+
+    (popper)
+        - 부트스트랩은 popper를 이용하여 일부 라이브러리 구현
+        - 부트스트랩 사용을 위해 popper.js 설치
+        npm install -g @popperjs/core
+        npm install -g popper.js #bootstrap 5 alpha 사용 시
+
+            /// bootstrap 기능 -> popover : 풍선 도움말..?
+
+
+
+----------------------------------------------------------------------------
+
+Vue3 실행하기
+
+1. CDN을 이용한 vue 실행
+    (렌더링 방식)
+        - jquery : 명령형 렌더링
+        - vue, react : 선언형 렌더링
+    
+    (선언형 렌더링)
+        - '데이터 변수로 선언된 값을 템플릿 내에 특정 방식으로 접근'
+        - DOM 엘리먼트를 무조건 다시 렌더링하지 않고 DOM 과 연결된 '상태와 속성이 변경될 때' 자동으로 DOM 엘리먼트를 업데이트
+            /// jquery는 전체가 리렌더링
+
+
+
+
+
+2. npm / vite 이용한 프로젝트 생성
+    (패키지 설치를 이용한 프로젝트 생성)
+        - 실제 프로젝트 개발에 사용
+        - npm을 이용하여 관련 라이브러리들을 프로젝트 코드들과 함께 컴파일 한 후 코드 축소
+        - 결과물은 하나의 js파일로 생성
+        - 결과물의 크기가 큰 경우 비동기식으로 필요할 때 필요한 코드를 불러오는 lazy 로딩 방식 이용
+            /// lazy loading: 파일 분리해서 저장하는 방식
+        - vue ES 패키지를 다운로드 받아 개발
+
+    (vue 설치)
+        - npm install -g vue@next
+            /// -g 전역설정
+
+    (vite)
+        - vue3에서 별다른 번들 생성 없이 ES modules를 바로 웹 브라우저에 렌더링 할 수 있도록 만든 개발 툴
+            ///vue3 쉽게 사용할 수 있도록 만든 '라이브러리?'
+        - 매우 빠른 HMR(hot module replacement) 제공
+        - 번들 생성 과정이 필요 없어 서버의 시작 속도 빠름
+        - 개발자가 번들 없이 모듈화된 컴포넌트의 수정사항을 브라우저로 확인 가능
+
+        - npm init @vitejs/app [ ]  => npm init vite [ ] = npm create vite @latest [ ]
+    
+    (실습준비)
+        npm create vite@latest [ ]   or npm init vite [ ]
+        ? ok to proceed? Y
+        ? project name : [Project name]
+        ? select a framework : [Vue]
+        ? select a variant : [javascript]
+
+        node modules 없으니까  => npm install
+
+        ///
+            vite alias 생성  =router와 비슷
+            npm install path (각 파일의 경로 간소화)
+
+        미리보기 : npm run dev
+        정적 파일로 컴파일 : npm run build
+        
+        ///
+            npm init vite-app : vite를 이용한 프로젝트 생성(구버전)
+
+            (vite 없이 vue 사용해서 프로젝트 생성)
+                npm init vue@latest
+                name: [ ]
+                add typescript? n
+                add jsx supprt? n
+                add vue router spa? n
+                add pinia for state management? n
+                add vitest? n
+                add end-to-end testing solution? n
+                add eslint? n
+                add prettier? n
+
+    (기본구조)
+        - package.json : 프로젝트 정보
+        - package-lock.json : 공동 프로젝트에서 의존성 패키지의 버전을 동일하게
+        - index.html : js 코드와 css 코드 집합
+        - /src : 프로젝트 개발에 사용되는 파일 집합
+        - /src/main.js : vue로 개발된 코드를 html 문서에 전달 -> .mount('App')
+        - /src/App.vue : 프로젝트 개발 코드 작성
+
+
+
+-----------------------------------------------------------------------
+
+핵심문법
+
+
+1. 컴포넌트 구조
+    1/SFC(single file component)
+        (SFC?)
+            - Vue의 컴포넌트를 하나의 파일로 제작
+            - 코드가 간결하고 관리가 쉬움
+            - <template>, <script>, <style>의 구분
+
+        (template)
+            - 렌더링 될 html 코드
+
+        (script)
+            - 컴포넌트에 적용될 스크립트 코드 작성
+            - setup 속성 사용 시 LOC(line of code) 절약 가능
+
+        (style)
+            - 컴포넌트에 적용될 스타일 작성
+            - scoped 속성 추가 시 해당 컴포넌트에만 스타일 적용
+
+
+2. composition 함수
+    setup(컴포지션 함수)
+        (기존 vue 버전)
+            -- Options API만 제공
+            -- 컴포넌트 생성시 data, methods, computed 옵션 작성
+
+        (setup)
+            -- 기존 자바스크립트 문법과 동일
+            -- 'setup 함수'는 '객체 반환'
+            -- 반환된 객체에는 HTML에서 사용할 변수가 포함되어야 함
+
+                setup(){
+                    const data = 1
+                    return {data}
+                }
+
+                setup(){
+                    const foo = () => {data = 2}
+                    return {foo}
+                }
+
+
+3. 컴포넌트 life cycle(생명주기)
+    (생명주기)
+        - 컴포넌트 생성 - DOM 노드에 마운트 - 불필요한 엘리먼트를 제거하는 일련의 과정
+        - 생명주기 훅(hook) 제공 - 각 생명주기를 후킹(hooking) 할 수 있는 방법 제공
+            /// hooking : 중간에 가로채서 값/명령/방법을 바꿔~ =함수?, 이벤트처럼 사용 가능!!
+
+            --Options API
+                update(){
+                    //update Action
+                }
+            
+            -- Composition API
+                setup(){
+                    onUpdate(() => { //Update Action })
+                }
+    
+        1/ beforeCreate
+            - 컴포넌트를 생성하기 전에 호출
+            - 컴포지션 API의 setup() 함수는 beforeCreate를 대체
+            - 컴포넌트 생성 전에 호출되므로 생성된 data, data 관찰을 위한 watch 등이 동작하지 않음
+
+        2/ created
+                ///= 브라우저에서 렌더링 되었을 때
+            - 컴포넌트가 생성되면 호출  
+            - 컴포지션 API의 setup() 함수가 beforeCreate 와 create를 함께 대체
+            - 컴포넌트의 옵션에 접근이 가능하므로 data 옵션에 선언한 데이터 초기화 시 많이 사용
+        
+        3/ mounted(onMounded)  
+                /// 화면에 나타나!
+            - 실제로 컴포넌트의 구성요소들이 DOM 엘리먼트로 마운트 된 후에 호출
+            - 실제 엘리먼트 참조 가능
+            - onRenderTracked라는 생명주기 훅에서 관찰 가능
+            - 실제 엘리먼트에 동적으로 변화를 주고자 하는 경우 활용
+            - 이후 onRenderTriggered 훅 호출됨
+
+        4/ beforeUpdate(onBeforeUpadate)
+                /// 가상DOM(미리그려봐..)에서는 바꿨어 -> 실제 브라우저에서 만들기 전! 그 사이!!
+                /// DOM = document object model
+            - '데이터가 변경되었지만 아직 DOM에 반영되지 않은' 경우 호출
+            - 변경 사항이 DOM에 반영되지 않았으므로 실제 엘리먼트를 참조하는 변수값 사용 불가
+
+        5/ updated(onUpdated)
+                /// 가상 DOM의 변경사항이 실제 브라우저에 반영된 상태
+            - 데이터가 변경되어 DOM이 적용된 시점에 호출
+            - 실제 DOM이 업데이트 되면서 참조된 변수를 이용한 다양한 역할 수행 가능
+            - 해당 컴포넌트만 수정을 보장하며 자식 노드들의 업데이트를 보장하지는 않음
+            - 자식 컴포넌트들의 수정까지 보장하기 위해 nextTick 사용
+                update(){
+                    this.$nextTick(function(){
+                        //모든 자식 요소 업데이트 완료
+                    })
+                }
+    
+        6/ beforeUnmount(onBeforeUnmount)
+            - 컴포넌트가 탈착되기 직전에 호출
+            - 모든 기능이 사용 가능한 상태이므로 컴포넌트가 분리되기 전에 수행해야 될 내용 작성
+
+        7/ activated(onActivated)
+                /// 페이지 새로고침 했을 때 keep-alive 태그 안에 있는 내용은 리렌더링 되지 않아!
+            - keep-alive 태그: '컴포넌트가 다시 렌더링 되는 것을 방지'하고 상태를 유지 시킴
+            - v-is와 함께 사용되며 v-is 디렉티브가 컴포넌트를 변경할 때 기존 컴포넌트의 형태가 사라지지 않게 하기 위해 사용
+            - keep-alive 태그로 컴포넌트의 상태가 보존되기 시작하면 onActivated 훅 호출
+                <keep-alive>
+                    <component v-is="currentComponent" />
+                </keep-alive>
+
+        8/ deactivated(onDeactivated)
+            - keep-alive로 상태가 유지되던 컴포넌트가 효력 상실 시 호출
+            - 소스코드 수정 후 저장하면 vite의 HMR이 해당 컴포넌트를 다시 렌더링하는데 이 때 keep-alive로 activated 된 컴포넌트에 deactivated 호출 확인 가능
+
+        9/ renderTracked(onRenderTracked)
+                /// 오류추적
+            - 'Virture DOM이 변경될 때마다 관찰'을 목적으로 호출
+            - 이 함수로 DebuggerEvent 객체를 확인하여 Virture DOM의 '변경 이유 확인 가능'
+            - DebuggerEvent는 target 속성으로 Virture DOM 변경 추적
+                renderTracked(e){
+                    console.log(e.target)
+                }
+        
+        10/ renderTriggered(onRenderTriggered)
+            - 'Virture DOM이 실제 DOM에 반영되어야 할 때' 호출
+            - onMounted, onActivated, onUpdated와 같이 실제 DOM이 변경되기 직전에 호출
+            - 'DebuggerEvent로 호출이유 파악 가능'
+                ex/ 
+                    새로운 값이 추가된 경우 - DebuggerEvent의 type 속성에 "add", newValue속성에 추가된 값 입력 확인 가능
+
+        11/ errorCaptured(onErrorCaptured)
+            - 자손 컴포넌트에 에러가 발생한 경우 '어느 컴포넌트에서 발생했는지 확인'
+            - 실제 동작 중에 에러가 발생하면 안되니까 '개발 중 에러를 캡처'하기 위해 사용
+
+
+4. 선언적 렌더링
+    (선언적 렌더링)
+        - 변수를 선언하고 값을 입력하면 자동으로 DOM 갱신
+
+    (~Vue2 : Options API)
+        - data 옵션에 변수 선언
+
+    (Vue 3 : Composition API)
+        - setup 함수 생성 후 내부에 자바스크립트 방식으로 변수 선언
+            /// 자바스크립트 변수 선언 방식 
+                : var a = 1, let b = 2, const c = 3
+        - 선언된 변수는 반드시 객체 형식으로 반환
+            /// vue 사용 기본 문법 = 객체형식
+
+    (머스태시(이중 중괄호{{}}) 표기법)
+        - 템플릿 객체 내에서 변수의 값 출력
+
+
+5. 핵심
+
+
+ES6 단축 속성(Shorthand Property)
+    (단축 속성)
+        - setup 함수에서 반환할 때 객체의 키 값과 동일한 변수명을 값으로 사용하는 경우 값을 생략하여 짧은 코드로 작성 가능
+                setup(){
+                    const date2 = Date().toString()
+                    return{
+                        date2 : data2,  
+                    }
+                }
+
+                setup(){
+                    const date2 = Date().toString()
+                    return{
+                        date2
+                    }
+                }
+
+            /// 
+                키(변수이름) = 값(사용할 값) => 값 짧게 쓰기 가능 
+                <btn id="rBtn">
+                <script>
+                    var rBtn = document.getElementById('rBtn')
+                    rBtn.onclick = function(){}
+                </script>
+
+
+
+v-html 디렉티브
+    (머스태시 & v-text)
+            /// obj.textContent로 전달 -> "<b>TEXT</b> <b>TEXT</b> : 태그도 글자
+        - 머스태시와 v-text 디렉티브는 HTML 엘리먼트의 textContent를 업데이트
+        - 문자열을 변수로 대입하더라도 변수에 저장된 값이 아닌 변수명이 '문자열로 반환'
+
+    (v-html)
+            /// obj.innerHTML로 전달 -> TEXT : 태그 반영
+        - HTML 엘리먼트의 innerHTML로 값 전달되므로 문자열을 HTML '마크업 언어'로 표현
+        - 변수의 값이 반드시 HTML 평문이어야 함
+        - Vue 문법을 사용해도 컴파일 되지 않음
+                <div v-html="<i> HTML Markup </i>"></div>

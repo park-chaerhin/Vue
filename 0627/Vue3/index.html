@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    
+    <title>Hello Vue3 CDN</title>
+</head>
+<body>
+    <div class="app"> {{msg}} </div>
+
+    <script>
+        // js: window.onload=function(){} , jq: $(document).ready(function(){})
+        // script가 div 아래에 위치한 이유: 태그 만든 뒤 실행~
+        const App={
+            data(){
+                return {
+                    msg: 'hello Vue3 with CDN'
+                }
+            }
+        }
+        Vue.createApp(App).mount('.app')
+        // mount : 연결  = new Vue({el:'#App'})
+    </script>
+</body>
+</html>
