@@ -212,6 +212,22 @@ v-pre 디렉티브
         
         - 'key 속성과 같이 사용'하는 것이 좋음
         - '변수를 반응성'으로 만들기 위해 프록시 객체를 생성하는 'ref를 사용'하지만 '배열이나 객체는 reactive 함수 사용'
+            /// 
+                ref
+                    : import {ref} from 'vue'
+                    : 변수 선언, ref()로 감싸
+                    : 변수값 변경 할 때, '변수.value'에 변경할 값 넣기
+                    
+                    -> 타입제한X, 템플릿에서 단일 변수로 사용 가능
+                reactive
+                    : import {reactive} from 'vue'
+                    : 변수 선언, reactive()로 감싸
+                    : property값 변경 할 때, '변수.property'에 변경할 값 넣기
+                    : object, array, Map, Set 이외에는 사용X
+
+                    -> 자바스크립트와 템플릿 사이에 일관성이 있음
+                       반응형 변수 많이 선언할 때 간단히 사용 가능
+                       (.. Vue2의 data()와 비슷)
 
     (computed)
         - 반응형 애플리케이션 구현의 중요한 기능 중 하나
