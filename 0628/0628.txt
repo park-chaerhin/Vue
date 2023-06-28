@@ -44,35 +44,39 @@ v-pre 디렉티브
 
 
 데이터 결합 디렉티브
+
     (v-bind?)
-            /// 
-                속성의 값으로 '전달'만 가능 : v-bind, 
+            /// 속성의 값으로 '전달'만 가능 : v-bind, 
                 값을 화면에 출력: {{}} 사용
-                
+            /// element : 원래 html에 있는 속성
+                props : 내가 만든 component에 있는 속성
+
         - 단방향 결합
         - 변수의 값이 템플릿으로만 결합
-        - 템플릿의 HTML 태그가 변경한 값이 변수에 반환되지 않음
+            <img src="logo.jpg"> --> " value " 
+            <img v-bind:src="logo"> --> " 변수 "
+                =>  
+                <script> 
+                    data(){
+                        return{
+                            logo:??
+                        }
+                    }
+                </script>
+        - 템플릿의 HTML 태그가 변경한 값이 변수에 반환되지 않음  ///양방향아니니까 당연!
         - 디렉티브 생략 가능
-            <img src="logo.jpg"> : "" = value
-            <img v-bind:src="logo"> : "" = 변수
-                <script> data(){return{logo:??}}
-                
-                /// element : 원래 html에 있는 속성
-                    props : 내가 만든 component에 있는 속성
-
             <a :href="변수명"></a>
 
     (v-model?)
         - 양방향 결합
         - 변경된 변수의 값이 DOM에 업데이트
         - 템플릿에서 변경된 값이 변수의 값을 변경
-        - 양방향이 가능한 모든 태그에서 사용 가능
-            /// 주로 <form> 
+        - 양방향이 가능한 모든 태그에서 사용 가능  /// 주로 <form> 
         - '별도의 속성을 정의하지 않으며 반드시 value 속성과 결합'
+            <elem v-model="변수명">
+            /// = v-model:value="변수명" 
         - Vue3 에서는 하나의 엘리먼트에 여러 개의 v-model 디렉티브 사용가능
         - 디렉티브 생략 불가능
-            <elem v-model="변수명">
-            /// = v-model:value="" 
 
     (v-bind VS v-model)
         v-bind:속성="변수명"
@@ -80,24 +84,23 @@ v-pre 디렉티브
 
     (ref 함수)
         - vue에서 함수를 import 한 후 사용
+            /// import {ref} from 'vue'
         - setup 함수에서는 반응형 변수 선언 시 값을 ref 함수의 인자로 입력
         - ref 또는 reactive 함수를 이용하여 데이터를 프록시 객체로 생성하면 데이터의 변경이 프록시 객체가 아닌 원래의 데이터에서 수행
         - const로 선언된 변수도 프록시의 변화는 없이 데이터만 변경 가능
         - 반환된 값은 템플릿과 결합하기 위해 return 사용
-            import {ref} from 'vue'
+            /// const vmodel = ref('text')
+                return{ vmodel }
 
     (문법적 슈가, syntax sugar, syntactic sugar)
         - 문법적인 기능은 그대로 유지하되 사람이 이해하고 표현하기 쉽게 디자인된 프로그래밍 언어 문법.
         - 또는 프로그래밍 언어를 더 간결하고 명확하게 표현 가능하도록 도와주는 문법
-            /// 
-                a = a + 1  ->  a++
-
-                if(test==true){
-                    alert('Y')
-                }else{
-                    alert('N')
-                }
-                    ==> (test) ? 'Y' : 'N'
+            /// a = a + 1  ->  a++
+            /// if(test==true) { alert('Y') } else{ alert('N') }
+                ==> (test) ? 'Y' : 'N'
+                
+                /// 삼항연산자?  -> 조건문 ? '조건문 참일 때 실행할 표현' : '조건문 거짓일 때 실행할 표현'
+                    '조건문 거짓~'에 포함 : null, nan, 0, '', undefined
 
     (ref 함수의 문법적 슈가)
         - <script> 선언문에 setup 속성 추가
@@ -116,7 +119,7 @@ v-pre 디렉티브
                 => 
                     <script setup>
                         ref: title = 'text'
-                        const change() => {title='Do It!'}
+                        //const change() => {title='Do It!'}
                     </script>
 
 
@@ -173,9 +176,9 @@ v-pre 디렉티브
         - 일반적인 스크립트 문법 사용
         - 디렉티브를 큰따옴표로 구성한 경우 내부의 문자열에는 작은따옴표 사용
         - v-if / v-else-if / v-else
-        - 빠르게 애플리케이션의 그림을 그려주지만 조건이 변경될 때 마다 해당 엘리먼트를 다시 그림
+        - 빠르게 애플리케이션의 그림을 그려주지만 '조건이 변경될 때 마다 해당 엘리먼트를 다시 그림'
             (<-> v-show 디렉티브)
-        - 조건이 자주 변경되지 않는 경우에 유리
+        - 조건이 '자주 변경되지 않는' 경우에 유리
             v-if="count > 0"
             v-if="text == text"
             
@@ -183,9 +186,11 @@ v-pre 디렉티브
 
     (v-show)
         - v-if와 유사한 역할 수행
-        - 모든 조건의 DOM 엘리먼트를 그린 후 조건에 맞지 않는 엘리먼트를 hide 처리
+        - 모든 조건의 DOM 엘리먼트를 그린 후 조건에 맞지 않는 엘리먼트를 'hide' 처리
+            /// v-if : 조건X -> 렌더링X
+                v-show : 조건X -> 렌더링O , display=none
         - 처음 렌더링은 느린 편이지만 조건이 변경되는 경우 빠르게 전환됨
-        - 조건이 자주 변경되는 경우 유리
+        - 조건이 '자주 변경'되는 경우 유리
 
 
 ----------------------------------------------------------------------------------------------------
